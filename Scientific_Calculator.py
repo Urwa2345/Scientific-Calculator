@@ -18,13 +18,13 @@ st.markdown("""
         display: none;
     }
 
-    /* UPDATED: cursor/text now LEFT */
+    /* cursor LEFT */
     div[data-testid="stTextInput"] input {
         background: #0d0f18;
         color: #eef0f7;
         font-size: 30px;
         font-weight: 600;
-        text-align: left;  /* changed */
+        text-align: left;
         border-radius: 14px;
         border: 1px solid #2a2e42;
         padding: 20px 22px;
@@ -34,7 +34,6 @@ st.markdown("""
     div[data-testid="stTextInput"] input::placeholder {
         color: #565b78;
         font-size: 16px;
-        font-weight: 400;
     }
 
     div[data-testid="stTextInput"] input:focus {
@@ -42,17 +41,18 @@ st.markdown("""
         box-shadow: 0 0 0 1px #6366f1;
     }
 
-    /* UPDATED: buttons bigger (wider feel) */
+    /* WIDE BOX STYLE BUTTONS */
     div.stButton > button {
         width: 100%;
-        height: 75px;  /* increased */
-        border-radius: 12px;
+        height: 80px;
+        border-radius: 14px;
         border: 1px solid #2a2e42;
-        font-size: 18px;  /* slightly bigger */
-        font-weight: 500;
+        font-size: 18px;
+        font-weight: 600;
         background: #1c1f30;
         color: #dcdfec;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.35);
+        padding: 10px;
         transition: 0.15s ease;
     }
 
@@ -75,7 +75,6 @@ st.markdown("""
 
     div.stButton > button[kind="primary"]:hover {
         background: #7577f3;
-        border-color: #7577f3;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -163,7 +162,7 @@ rows = [
 ]
 
 for row in rows:
-    cols = st.columns(len(row), gap="small")
+    cols = st.columns(len(row), gap="none")  # removed gaps for box feel
     for col, (shown, value) in zip(cols, row):
         with col:
             is_equals = value == "="
