@@ -199,4 +199,4 @@ for row in rows:
                     press(value)
                 st.rerun()
 
-st.caption("Click the buttons or type your expression directly — the result appears right in the same field.")
+st.caption("Click the buttons or type your expression directly.")
