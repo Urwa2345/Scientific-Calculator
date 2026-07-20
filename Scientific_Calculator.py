@@ -43,13 +43,13 @@ st.markdown("""
         box-shadow: 0 0 0 1px #6366f1;
     }
 
-    /* buttons: shorter height so the width is the dominant, "wide" dimension */
+    /* UPDATED BUTTON SHAPE */
     div[data-testid="stButton"] button {
         width: 100%;
-        height: 64px;
-        border-radius: 20px;
+        height: 48px;
+        border-radius: 10px;
         border: 1px solid #2a2e42;
-        font-size: 18px;
+        font-size: 15px;
         font-weight: 500;
         background: #1c1f30;
         color: #dcdfec;
@@ -164,8 +164,6 @@ rows = [
 ]
 
 for row in rows:
-    # give digit buttons a much wider column share than the symbol/function
-    # buttons they sit next to, so they read as wide horizontal buttons
     ratios = [1.6 if value.isdigit() else 1 for _, value in row]
     cols = st.columns(ratios, gap="small")
     for col, (shown, value) in zip(cols, row):
