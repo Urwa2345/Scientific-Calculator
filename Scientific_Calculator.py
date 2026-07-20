@@ -44,15 +44,6 @@ st.markdown("""
         box-shadow: 0 0 0 1px #6366f1;
     }
 
-    .calc-result {
-        color: #818cf8;
-        font-size: 26px;
-        font-weight: 600;
-        text-align: right;
-        font-family: 'Courier New', monospace;
-        padding: 6px 6px 16px 6px;
-    }
-
     div.stButton > button {
         width: 100%;
         height: 62px;
@@ -92,8 +83,6 @@ st.title("🔢 Scientific Calculator")
 # ---------- state ----------
 if "expr" not in st.session_state:
     st.session_state.expr = ""
-if "result" not in st.session_state:
-    st.session_state.result = ""
 if "version" not in st.session_state:
     st.session_state.version = 0
 
@@ -126,14 +115,18 @@ def format_result(value):
 
 
 def evaluate():
+    """Evaluate the current expression and put the result straight back
+    into st.session_state.expr, so the same field shows it - no second
+    field needed."""
     expr = st.session_state.expr.replace("^", "**").replace("×", "*").replace("÷", "/")
     if not expr:
         return
     try:
         value = eval(expr, {"__builtins__": {}}, SAFE_NAMES)
-        st.session_state.result = format_result(value)
+        st.session_state.expr = format_result(value)
     except Exception:
-        st.session_state.result = "Error"
+        st.session_state.expr = "Error"
+    st.session_state.version += 1  # forces the text_input to refresh with new text
 
 
 def press(key):
@@ -143,7 +136,6 @@ def press(key):
 
 def clear_all():
     st.session_state.expr = ""
-    st.session_state.result = ""
     st.session_state.version += 1
 
 
@@ -159,7 +151,7 @@ def on_type():
     evaluate()
 
 
-# ---------- the single input field ----------
+# ---------- the single input field (doubles as the result display) ----------
 st.text_input(
     "expression",
     value=st.session_state.expr,
@@ -167,11 +159,6 @@ st.text_input(
     on_change=on_type,
     placeholder="Type here or press Enter to calculate...",
     label_visibility="collapsed",
-)
-
-st.markdown(
-    f'<div class="calc-result">{st.session_state.result if st.session_state.result else "&nbsp;"}</div>',
-    unsafe_allow_html=True,
 )
 
 # ---------- button grid ----------
@@ -212,4 +199,4 @@ for row in rows:
                     press(value)
                 st.rerun()
 
-st.caption("Click the buttons or type your expression directly — both stay perfectly in sync.")
+st.caption("Click the buttons or type your expression directly — the result appears right in the same field.")
